@@ -19,7 +19,7 @@
           <option value="x">保密</option>
         </select>
         <h4>头像 <i class="red">*</i></h4>
-        <input type="file" name="avatar" @change="getFile($event)">
+        <input type="file" name="avatar" id="file" @change="getFile($event)">
          <h4>个人简介 <i class="red">*</i></h4>
         <textarea name="bio" id="" cols="30" rows="10" v-model="form.bio"></textarea>
         <input type="submit" class="btn" value="注册" @click="_signup($event)">
@@ -45,12 +45,22 @@
     },
     methods: {
       getFile (event) {
-        this.form.avatar = event.target.files[0].name
-        console.log(this.form.avatar)
+        this.form.avatar = event.target.files[0]
+        console.log(document.getElementById('file').files[0])
       },
       _signup (event) {
         event.preventDefault()
-        signInUp('/signup/', this.form).then((res) => {
+        let formData = new FormData()
+        formData.append('name', this.form.name)
+        formData.append('password', this.form.password)
+        formData.append('repassword', this.form.repassword)
+        formData.append('gender', this.form.gender)
+        formData.append('avatar', this.form.avatar)
+        formData.append('bio', this.form.bio)
+        let config = {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }
+        signInUp('/signup/', formData, config).then((res) => {
           if (res.code === ERR_OK) {
             this.$router.push('/')
           } else {
@@ -78,7 +88,7 @@
       border-bottom 1px solid #eee
       text-align center
       i
-        float left 
+        float left
     form
       padding 10px
       h4
