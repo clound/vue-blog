@@ -1,0 +1,106 @@
+<template>
+  <transition name="slide">
+    <div class="login">
+      <div class="back">
+        <i class="icon-back" @click="back"></i>
+        <span>注册</span>
+      </div>
+      <form action="" method="post" enctype="multipart/form-data">
+        <h4>用户名 <i class="red">*</i></h4>
+        <input type="text" class="" name="name" v-model="form.name">
+        <h4>密码 <i class="red">*</i></h4>
+        <input type="password" name="password" v-model="form.password"/>
+        <h4>重复密码 <i class="red">*</i></h4>
+        <input type="password" class="" name="repassword" v-model="form.repassword">
+        <h4>性别 <i class="red">*</i></h4>
+        <select name="gender" id="" v-model="form.gender">
+          <option value="m">男</option>
+          <option value="f">女</option>
+          <option value="x">保密</option>
+        </select>
+        <h4>头像 <i class="red">*</i></h4>
+        <input type="file" name="avatar" @change="getFile($event)">
+         <h4>个人简介 <i class="red">*</i></h4>
+        <textarea name="bio" id="" cols="30" rows="10" v-model="form.bio"></textarea>
+        <input type="submit" class="btn" value="注册" @click="_signup($event)">
+      </form>
+    </div>
+  </transition>
+</template>
+<script>
+  import {signInUp} from 'api/signin'
+  import {ERR_OK} from 'api/config'
+  export default {
+    data () {
+      return {
+        form: {
+          name: '',
+          password: '',
+          repassword: '',
+          gender: '',
+          avatar: '',
+          bio: ''
+        }
+      }
+    },
+    methods: {
+      getFile (event) {
+        this.form.avatar = event.target.files[0].name
+        console.log(this.form.avatar)
+      },
+      _signup (event) {
+        event.preventDefault()
+        signInUp('/signup/', this.form).then((res) => {
+          if (res.code === ERR_OK) {
+            this.$router.push('/')
+          } else {
+            alert(res.info)
+          }
+        })
+      },
+      back () {
+        this.$router.push('/')
+      }
+    }
+  }
+</script>
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  @import "~common/stylus/variable"
+  .login
+    position: fixed
+    top: 0
+    bottom: 0
+    z-index: 100
+    width: 100%
+    background: #fff
+    .back
+      padding 10px
+      border-bottom 1px solid #eee
+      text-align center
+      i
+        float left 
+    form
+      padding 10px
+      h4
+        margin 8px 0
+      textarea
+        height 80px
+      .btn
+        display: inline-block;
+        text-align: center;
+        padding: 10px 15px;
+        font-size: 14px;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #20a0ff;
+        border-color: #20a0ff;
+        left: 50%;
+        position: relative;
+        transform: translateX(-50%);
+        margin-top 10px
+  &.slide-enter-active, &.slide-leave-active
+    transition: all 0.3s
+  &.slide-enter, &.slide-leave-to
+    transform: translate3d(100%, 0, 0)
+</style>
+
