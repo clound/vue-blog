@@ -8,6 +8,11 @@ const Articles = (resolve) => {
     resolve(module)
   })
 }
+const Listitem = (resolve) => {
+  import('components/listitem/listitem').then((module) => {
+    resolve(module)
+  })
+}
 
 const Posts = (resolve) => {
   import('components/posts/posts').then((module) => {
@@ -24,6 +29,11 @@ export default new Router({
     {
       path: '/articles',
       component: Articles
+    },
+    {
+      path: '/articles/listitem/:id',
+      name: 'articleitem',
+      component: Listitem
     },
     {
       path: '/posts',

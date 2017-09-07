@@ -1,23 +1,25 @@
 <template>
   <div class="articles" ref="articles">
     <ul>
-      <li v-for="item in articles"> 
-        <div class="img">
-          <img :src="/img/+item.author.avatar" alt="">  
-        </div>
-        <div class="text">
-          <h3>{{item.title}}</h3>
-          <div class="time">
-              发布时间：{{item.created_at}}
+      <li v-for="item in articles" class="item"> 
+        <router-link :to="{name: 'articleitem', params: {id: item._id}}">
+          <div class="img">
+            <img :src="/img/+item.author.avatar" alt="">  
           </div>
-          <p v-html="item.content"></p>
-          <div class="btm">
-            <div class="viewmsg">
-              <span>浏览（{{item.pv}}）</span>
-              <span>留言（{{item.commentsCount}}）</span>
+          <div class="text">
+            <h3>{{item.title}}</h3>
+            <div class="time">
+                发布时间：{{item.created_at}}
             </div>
-          </div>
-        </div> 
+            <p v-html="item.content"></p>
+            <div class="btm">
+              <div class="viewmsg">
+                <span>浏览（{{item.pv}}）</span>
+                <span>留言（{{item.commentsCount}}）</span>
+              </div>
+            </div>
+          </div> 
+        </router-link>
       </li>
     </ul>
   </div>
@@ -46,11 +48,13 @@ export default {
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
+  @import "~common/stylus/mixin.styl"
   .articles
-    li
+    a
       display: flex
       box-sizing: border-box
       align-items flex-start
+      justify-content: space-between
       padding: 0 20px 20px 20px
     .img
       flex: 0 0 80px
@@ -62,9 +66,13 @@ export default {
     .text
         display: flex
         flex-direction: column
+        flex 1
         h3
           color $color-title
           font-size $f14
+          line(2)
+          line-height 18px
+          word-break break-all
         .time
           margin-top 5px 
           font-size $f12

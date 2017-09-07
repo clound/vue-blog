@@ -46,7 +46,6 @@
     methods: {
       getFile (event) {
         this.form.avatar = event.target.files[0]
-        console.log(document.getElementById('file').files[0])
       },
       _signup (event) {
         event.preventDefault()

@@ -7,10 +7,9 @@ var CommentModel = require('../models/comments');
 
 
 // GET /posts 所有用户或者特定用户的文章页
-//   eg: GET /posts?author=xxx
+//   eg: GET /getArticles?author=xxx
 router.get('/getArticles', function(req, res, next) {
   var author = req.query.author;
-
   PostModel.getPosts(author)
     .then(function (posts) {
       // console.log(posts);
@@ -28,10 +27,11 @@ router.get('/create', function(req, res, next) {
 });
 
 // POST /posts 发表一篇文章
-router.post('/', function(req, res, next) {
+router.post('/postArticles', function(req, res, next) {
+
   var author = req.session.user._id;
   var title = req.fields.title;
-  var content = req.fields.content;
+  var content = req.fields.content; 
 
   // 校验参数
   try {
@@ -42,8 +42,10 @@ router.post('/', function(req, res, next) {
       throw new Error('请填写内容');
     }
   } catch (e) {
-    req.flash('error', e.message);
-    return res.redirect('back');
+    return res.json({
+      code: 1,
+      info: e.message
+    });
   }
 
   var post = {
@@ -57,9 +59,16 @@ router.post('/', function(req, res, next) {
     .then(function (result) {
       // 此 post 是插入 mongodb 后的值，包含 _id
       post = result.ops[0];
-      req.flash('success', '发表成功');
+      // req.flash('success', '发表成功');
       // 发表成功后跳转到该文章页
-      res.redirect(`/posts/${post._id}`);
+      res.json({
+        code: 0,
+        data:{
+          id : post._id
+        },
+        info: '发表成功'
+      });
+      // res.redirect(`/posts/${post._id}`);
     })
     .catch(next);
 });
@@ -67,6 +76,7 @@ router.post('/', function(req, res, next) {
 // GET /posts/:postId 单独一篇的文章页
 router.get('/:postId', function(req, res, next) {
   var postId = req.params.postId;
+  console.log(postId)
   
   Promise.all([
     PostModel.getPostById(postId),// 获取文章信息
@@ -79,11 +89,14 @@ router.get('/:postId', function(req, res, next) {
     if (!post) {
       throw new Error('该文章不存在');
     }
-
-    res.render('post', {
-      post: post,
-      comments: comments
-    });
+    res.json({
+        code: 0,
+        data:{
+          post: post,
+          comments: comments
+        },
+        info: '获取成功'
+    })
   })
   .catch(next);
 });

@@ -2,20 +2,38 @@
   <div class="publishCon">
     <form action="" method="post">
       <h4>标题 <i class="red">*</i></h4>
-      <input type="text" class="title">
+      <input type="text" class="title"
+      v-model="form.title">
       <h4>内容 <i class="red">*</i></h4>
-      <textarea name="" id="" cols="30" rows="10"></textarea>
-      <input type="submit" class="btn">
+      <textarea name="" id="" cols="30" rows="10" 
+      v-model="form.content"></textarea>
+      <input type="submit" class="btn" @click="_post($event)">
     </form>
   </div>
 </template>
-<script>
+<script type="text/ecmascript-6">
+import {postArticles} from 'api/articles'
+import {ERR_OK} from 'api/config'
 export default {
   data () {
     return {
+      form: {
+        title: '',
+        content: ''
+      }
     }
   },
   methods: {
+    _post (event) {
+      event.preventDefault()
+      postArticles(this.form).then((res) => {
+        if (res.code === ERR_OK) {
+          this.$router.push('/')
+        } else {
+          alert(res.info)
+        }
+      })
+    }
   }
 }
 </script>
