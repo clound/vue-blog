@@ -30,23 +30,23 @@
         default: '取消'
       }
     },
-    data() {
+    data () {
       return {
         showFlag: false
       }
     },
     methods: {
-      show() {
+      show () {
         this.showFlag = true
       },
-      hide() {
+      hide () {
         this.showFlag = false
       },
-      cancel() {
+      cancel () {
         this.hide()
         this.$emit('cancel')
       },
-      confirm() {
+      confirm () {
         this.hide()
         this.$emit('confirm')
       }
@@ -71,9 +71,11 @@
         animation: confirm-zoom 0.3s
     .confirm-wrapper
       position: absolute
-      top: 50%
+      top: 45%
       left: 50%
       transform: translate(-50%, -50%)
+      box-shadow: 0 0 2px rgba(0,0,0,.5)
+      background #fff
       z-index: 999
       .confirm-content
         width: 270px
@@ -85,6 +87,7 @@
           text-align: center
           font-size: $font-size-large
           color: $color-text-l
+          border-bottom 1px solid #eee
         .operate
           display: flex
           align-items: center

@@ -1,35 +1,55 @@
 <template>
-  <transition name="slide">
-    <div class="login">
-      <div class="back">
-        <i class="icon-back" @click="back"></i>
-        <span>登录</span>
+  <!-- <transition name="slide"> -->
+    <div>
+      <div class="login" v-if="isLogin">
+        <topHeader :title="title" @back="back"></topHeader>
+        <form action="" method="post" ref="signform">
+          <h4>用户名 <i class="red">*</i></h4>
+          <input type="text" class="title" name="name" v-model="form.name">
+          <h4>密码 <i class="red">*</i></h4>
+          <input type="text" class="title" name="password" v-model="form.password">
+          <input type="submit" class="btn" value="登录" @click="_signin($event)">
+        </form>
+        <div class="toRegister">
+          <router-link to="/signup">
+            <span class="toRegisterLink">未有账号，立即注册>></span>
+          </router-link>
+        </div>
       </div>
-      <form action="" method="post" ref="signform">
-        <h4>用户名 <i class="red">*</i></h4>
-        <input type="text" class="title" name="name" v-model="form.name">
-        <h4>密码 <i class="red">*</i></h4>
-        <input type="text" class="title" name="password" v-model="form.password">
-        <input type="submit" class="btn" value="登录" @click="_signin($event)">
-      </form>
-      <div class="toRegister">
-        <router-link to="/signup">
-          <span class="toRegisterLink">未有账号，立即注册>></span>
-        </router-link>
+      <div class="haslogin" v-else>
+        <topHeader :title="title" @back="back"></topHeader>
+        <ul>
+          <li>名字</li>
+        </ul>  
       </div>
+      <Confirm :text="text" ref="confirm"></Confirm>
     </div>
-  </transition>
+  <!-- </transition> -->
 </template>
-<script type="text/ecmascript-6">
+ <script type="text/ecmascript-6">
+  import topHeader from 'base/top-header/top-header'
+  import Confirm from 'base/confirm/confirm'
   import {signInUp} from 'api/signin'
   import {ERR_OK} from 'api/config'
+  import {setCookie, getCookie} from 'common/js/util'
   export default {
     data () {
       return {
+        text: '',
+        title: '登录',
+        login: (() => {
+          return getCookie('my')
+        })(),
         form: {
           name: '',
           password: ''
         }
+      }
+    },
+    computed: {
+      isLogin () {
+        setCookie('my', 1)
+        return this.login ? 'true' : 'false'
       }
     },
     methods: {
@@ -39,34 +59,31 @@
           if (res.code === ERR_OK) {
             this.$router.push('/')
           } else {
-            alert(res.info)
+            this.text = res.info
+            this.$refs.confirm.show()
           }
         })
       },
       back () {
         this.$router.back()
       }
+    },
+    components: {
+      topHeader,
+      Confirm
     }
   }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
-  .login
+  .login,.haslogin
     position: fixed
     top: 0
     bottom: 0
     z-index: 100
     width: 100%
     background: #fff
-    .back
-      padding 10px
-      border-bottom 1px solid #eee
-      text-align center
-      i
-        float left 
     form
-
-
       padding 10px
       h4
         margin 8px 0
