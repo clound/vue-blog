@@ -1,7 +1,7 @@
 <template>
   <!-- <transition name="slide"> -->
     <div>
-      <div class="login" v-if="isLogin">
+      <div class="login" v-if="!isLogin">
         <topHeader :title="title" @back="back"></topHeader>
         <form action="" method="post" ref="signform">
           <h4>用户名 <i class="red">*</i></h4>
@@ -18,9 +18,13 @@
       </div>
       <div class="haslogin" v-else>
         <topHeader :title="title" @back="back"></topHeader>
-        <ul>
-          <li>名字</li>
+        <ul class="userinfo">
+          <li><img :src="/img/+userInfo.avatar"></li>
+          <li>名字:{{userInfo.name}}</li>
+          <li>性别:{{userInfo.gender=='m'?'男':'女'}}</li>
+          <li>个性说明:{{userInfo.bio}}</li>
         </ul>  
+        <a @click="_logout($event)" class="logout">退出登录</a>
       </div>
       <Confirm :text="text" ref="confirm"></Confirm>
     </div>
@@ -29,30 +33,40 @@
  <script type="text/ecmascript-6">
   import topHeader from 'base/top-header/top-header'
   import Confirm from 'base/confirm/confirm'
-  import {signInUp} from 'api/signin'
+  import {getLoginInfo, signInUp, signOut} from 'api/signin'
   import {ERR_OK} from 'api/config'
-  import {setCookie, getCookie} from 'common/js/util'
+  import {getCookie} from 'common/js/util'
   export default {
     data () {
       return {
         text: '',
         title: '登录',
         login: (() => {
-          return getCookie('my')
+          return getCookie('blogtoken')
         })(),
         form: {
           name: '',
           password: ''
-        }
+        },
+        userInfo: {}
       }
+    },
+    created () {
+      this._config()
     },
     computed: {
       isLogin () {
-        setCookie('my', 1)
-        return this.login ? 'true' : 'false'
+        return this.login
       }
     },
     methods: {
+      _config () {
+        getLoginInfo('signin').then((res) => {
+          if (res.code === ERR_OK) {
+            this.userInfo = res.data
+          }
+        })
+      },
       _signin (event) {
         event.preventDefault()
         signInUp('/signin/', this.form).then((res) => {
@@ -61,6 +75,15 @@
           } else {
             this.text = res.info
             this.$refs.confirm.show()
+          }
+        })
+      },
+      _logout (event) {
+        event.preventDefault()
+        console.log(11212)
+        signOut('/signout/').then((res) => {
+          if (res.code === ERR_OK) {
+            this.$router.push('/')
           }
         })
       },
@@ -89,24 +112,34 @@
         margin 8px 0
       textarea
         height 80px
-      .btn
-        display: inline-block;
-        text-align: center;
-        padding: 10px 15px;
-        font-size: 14px;
-        border-radius: 4px;
-        color: #fff;
-        background-color: #20a0ff;
-        border-color: #20a0ff;
-        left: 50%;
-        position: relative;
-        transform: translateX(-50%);
-        margin-top 10px
+    .btn,.logout
+      display: inline-block;
+      text-align: center;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 4px;
+      color: #fff;
+      background-color: #20a0ff;
+      border-color: #20a0ff;
+      left: 50%;
+      position: relative;
+      transform: translateX(-50%);
+      margin-top 10px
     .toRegister
       text-align center
       font-size $f14
       span
         color #f7ba2a
+    .userinfo
+      padding 10px
+      li
+        text-align center
+        margin-bottom 10px
+        color $fc99
+        img 
+          width 80px
+          height 80px
+          border-radius 50%
   &.slide-enter-active, &.slide-leave-active
     transition: all 0.3s
   &.slide-enter, &.slide-leave-to

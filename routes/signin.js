@@ -7,7 +7,11 @@ var checkNotLogin = require('../middlewares/check').checkNotLogin;
 
 // GET /signin 登录页
 router.get('/', checkNotLogin, function(req, res, next) {
-  res.render('signin');
+  res.json({
+    code: 1,
+    data:req.session.user,
+    info:'未登录'
+  });
 });
 
 // POST /signin 用户登录
@@ -33,7 +37,8 @@ router.post('/', checkNotLogin, function(req, res, next) {
       delete user.password;
       req.session.user = user;
       // 跳转到主页
-      return res.json({
+      res.cookie('blogtoken', 'yes', { expires: new Date(Date.now() + 900000) });
+      res.json({
         code: 0,
         info: '登录成功'
       });

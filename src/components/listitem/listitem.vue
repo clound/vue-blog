@@ -34,6 +34,12 @@
               </div>
           </li>
         </ul>
+        <form class="form" method="post" :action='"/posts/"+articles.author._id+"/comment"'>
+            <div class="field">
+              <textarea name="content"></textarea>
+            </div>
+            <input type="submit" class="btn" value="留言" />
+        </form>
     </div>
   </transition>
 </template>
@@ -41,16 +47,24 @@
 <script type="text/ecmascript-6">
 import {getEachArticle} from 'api/articles'
 import {ERR_OK} from 'api/config'
+import {getCookie} from 'common/js/util'
 export default {
   data () {
     return {
       articles: {},
-      comments: []
+      comments: [],
+      login: (() => {
+        return getCookie('blogtoken')
+      })()
     }
   },
   created () {
-    console.log(this.$route.params)
     this._getEachArticle(this.$route.params.id)
+  },
+  computed: {
+    isLogin () {
+      return this.login
+    }
   },
   methods: {
     _getEachArticle (id) {
@@ -72,6 +86,26 @@ export default {
     transition: all 0.3s
   .slide-enter, .slide-leave-to
     transform: translate3d(100%, 0, 0)
+  .field
+    display flex
+    justify-content center
+    textarea
+      margin-top 20px
+      height 80px
+      width 90%
+  .btn
+    display: inline-block;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #20a0ff;
+    border-color: #20a0ff;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+    margin-top 10px
   .allitem
     background: #fff
     .leavemsg

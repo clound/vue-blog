@@ -76,8 +76,6 @@ router.post('/postArticles', function(req, res, next) {
 // GET /posts/:postId 单独一篇的文章页
 router.get('/:postId', function(req, res, next) {
   var postId = req.params.postId;
-  console.log(postId)
-  
   Promise.all([
     PostModel.getPostById(postId),// 获取文章信息
     CommentModel.getComments(postId),// 获取该文章所有留言
