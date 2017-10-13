@@ -34,18 +34,19 @@
               </div>
           </li>
         </ul>
-        <form class="form" method="post" :action='"/posts/"+articles.author._id+"/comment"'>
+        <form v-if="Object.keys(articles).length" class="form" method="post" :action='"/posts/"+articles._id+"/comment"'>
             <div class="field">
-              <textarea name="content"></textarea>
+              <textarea name="content" v-model="form.content"></textarea>
             </div>
-            <input type="submit" class="btn" value="留言" />
+            
+            <input type="submit" class="btn" value="留言" @click="_comment($event)" />
         </form>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
-import {getEachArticle} from 'api/articles'
+import {getEachArticle, postComment} from 'api/articles'
 import {ERR_OK} from 'api/config'
 import {getCookie} from 'common/js/util'
 export default {
@@ -55,7 +56,11 @@ export default {
       comments: [],
       login: (() => {
         return getCookie('blogtoken')
-      })()
+      })(),
+      form: {
+        postId: '',
+        content: ''
+      }
     }
   },
   created () {
@@ -72,6 +77,17 @@ export default {
         if (res.code === ERR_OK) {
           this.articles = res.data.post
           this.comments = res.data.comments
+          this.form.postId = res.data.post._id
+        }
+      })
+    },
+    _comment (event) {
+      event.preventDefault()
+      postComment(this.form).then((res) => {
+        if (res.code === ERR_OK) {
+          this._getEachArticle(this.$route.params.id)
+        } else {
+          alert(res.info)
         }
       })
     }

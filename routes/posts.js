@@ -162,9 +162,13 @@ router.post('/:postId/comment', function(req, res, next) {
 
   CommentModel.create(comment)
     .then(function () {
-      req.flash('success', '留言成功');
+      res.json({
+        code: 0,
+        info: '留言成功'
+      })
+      // req.flash('success', '留言成功');
       // 留言成功后跳转到上一页
-      res.redirect('back');
+      // res.redirect('back');
     })
     .catch(next);
 });
