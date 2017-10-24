@@ -21,7 +21,7 @@
         </div>
         <h3 class="leavemsg">留言：</h3>
         <ul>
-          <li v-for="(item,index) in comments">
+          <li v-for="(item,index) in comments" :key="index">
             <div class="img">
                 <img :src="/img/+item.author.avatar" alt="">  
               </div>

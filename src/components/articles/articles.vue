@@ -1,31 +1,40 @@
 <template>
-  <div class="articles" ref="articles">
-    <ul>
-      <li v-for="item in articles" class="item"> 
-        <router-link :to="{name: 'articleitem', params: {id: item._id}}">
-          <div class="img">
-            <img :src="/img/+item.author.avatar" alt="">  
-          </div>
-          <div class="text">
-            <h3>{{item.title}}</h3>
-            <div class="time">
-                发布时间：{{item.created_at}}
+<div class="list-content">
+  <scroll :data="articles" 
+  :listen-scroll="listenScroll"
+  :probe-type="probeType"
+  class="list"
+  ref="list">     
+    <div class="articles" ref="">
+      <ul>
+        <li v-for="item in articles" class="item"> 
+          <router-link :to="{name: 'articleitem', params: {id: item._id}}">
+            <div class="img">
+              <img :src="/img/+item.author.avatar" alt="">  
             </div>
-            <p v-html="item.content"></p>
-            <div class="btm">
-              <div class="viewmsg">
-                <span>浏览（{{item.pv}}）</span>
-                <span>留言（{{item.commentsCount}}）</span>
+            <div class="text">
+              <h3>{{item.title}}</h3>
+              <div class="time">
+                  发布时间：{{item.created_at}}
               </div>
-            </div>
-          </div> 
-        </router-link>
-      </li>
-    </ul>
-  </div>
+              <p v-html="item.content"></p>
+              <div class="btm">
+                <div class="viewmsg">
+                  <span>浏览（{{item.pv}}）</span>
+                  <span>留言（{{item.commentsCount}}）</span>
+                </div>
+              </div>
+            </div> 
+          </router-link>
+        </li>
+      </ul>
+    </div>
+  </scroll>
+</div>
 </template>
 
 <script type="text/ecmascript-6">
+import Scroll from 'base/scroll/scroll'
 import {getArticles} from 'api/articles'
 export default {
   data () {
@@ -35,6 +44,8 @@ export default {
   },
   created () {
     this._getArticles()
+    this.probeType = 3
+    this.listenScroll = true
   },
   methods: {
     _getArticles () {
@@ -42,6 +53,9 @@ export default {
         this.articles = data
       })
     }
+  },
+  components: {
+    Scroll
   }
 }
 </script>
@@ -49,6 +63,14 @@ export default {
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin.styl"
+  .list-content
+    position: fixed
+    width: 100%
+    top: 88px
+    bottom: 0
+    .list
+      height: 100%
+      overflow: hidden
   .articles
     a
       display: flex
