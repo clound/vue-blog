@@ -1,6 +1,6 @@
   <template>
     <div class="back">
-        <i class="icon-back" @click="back()"></i>
+        <i class="iconfont icon-left" @click="back()"></i>
         <span>{{title}}</span>
       </div>    
   </template>
@@ -14,16 +14,22 @@
       },
       methods: {
         back () {
-          this.$emit('back')
+          this.$router.back()
         }
       }
     }
   </script>
   <style scoped lang="stylus" rel="stylesheet/stylus">
+  @import "~common/stylus/variable"
+  @import "~common/stylus/mixin"
    .back
-      padding 10px
-      border-bottom 1px solid #eee
-      text-align center
-      i
-        float left 
+    position: relative
+    height: 44px
+    line-height 44px
+    text-align: center 
+    color: $color-theme
+    padding: 3px 18px 
+    box-shadow(0 2px 4px rgba(0,0,0,.1)) 
+    i
+      float left 
 </style>

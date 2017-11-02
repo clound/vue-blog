@@ -6,36 +6,17 @@
   class="list"
   ref="list">     
     <div class="articles" ref="">
-      <ul>
-        <li v-for="item in articles" class="item"> 
-          <router-link :to="{name: 'articleitem', params: {id: item._id}}">
-            <div class="img">
-              <img :src="/img/+item.author.avatar" alt="">  
-            </div>
-            <div class="text">
-              <h3>{{item.title}}</h3>
-              <div class="time">
-                  发布时间：{{item.created_at}}
-              </div>
-              <p v-html="item.content"></p>
-              <div class="btm">
-                <div class="viewmsg">
-                  <span>浏览（{{item.pv}}）</span>
-                  <span>留言（{{item.commentsCount}}）</span>
-                </div>
-              </div>
-            </div> 
-          </router-link>
-        </li>
-      </ul>
+      <list-item :articles="articles"></list-item>
     </div>
   </scroll>
+  <router-view></router-view>
 </div>
 </template>
 
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
 import {getArticles} from 'api/articles'
+import ListItem from 'base/listitem/listitem'
 export default {
   data () {
     return {
@@ -55,7 +36,8 @@ export default {
     }
   },
   components: {
-    Scroll
+    Scroll,
+    ListItem
   }
 }
 </script>
@@ -66,51 +48,9 @@ export default {
   .list-content
     position: fixed
     width: 100%
-    top: 88px
+    top: 44px
     bottom: 0
     .list
-      height: 100%
-      overflow: hidden
-  .articles
-    a
-      display: flex
-      box-sizing: border-box
-      align-items flex-start
-      justify-content: space-between
-      padding: 0 20px 20px 20px
-    .img
-      flex: 0 0 80px
-      width: 80px
-      padding-right: 20px
-      img
-        width 100%
-        height 100%
-    .text
-        display: flex
-        flex-direction: column
-        flex 1
-        h3
-          color $color-title
-          font-size $f14
-          line(2)
-          line-height 18px
-          word-break break-all
-        .time
-          margin-top 5px 
-          font-size $f12
-          color $fc99
-        p
-          color $fc99
-          font-size $f12
-          margin-top 5px
-          line-height 15px
-        .btm
-          display flex
-          align-self flex-end
-          margin-top 5px
-          .viewmsg
-            color $fc99
-            font-size $f12
-          
-        
+      height: calc(100% - 50px)
+      overflow: hidden      
 </style>

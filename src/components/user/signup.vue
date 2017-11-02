@@ -1,10 +1,7 @@
 <template>
   <transition name="slide">
     <div class="login">
-      <div class="back">
-        <i class="icon-back" @click="back"></i>
-        <span>注册</span>
-      </div>
+      <topHeader :title="'注册'"></topHeader>
       <form action="" method="post" enctype="multipart/form-data">
         <h4>用户名 <i class="red">*</i></h4>
         <input type="text" class="" name="name" v-model="form.name">
@@ -30,6 +27,7 @@
 <script>
   import {signInUp} from 'api/signin'
   import {ERR_OK} from 'api/config'
+  import topHeader from 'base/top-header/top-header'
   export default {
     data () {
       return {
@@ -63,13 +61,16 @@
           if (res.code === ERR_OK) {
             this.$router.push('/')
           } else {
-            alert(res.info)
+            this.$alert(res.info)
           }
         })
       },
       back () {
         this.$router.push('/')
       }
+    },
+    components: {
+      topHeader
     }
   }
 </script>
@@ -82,12 +83,6 @@
     z-index: 100
     width: 100%
     background: #fff
-    .back
-      padding 10px
-      border-bottom 1px solid #eee
-      text-align center
-      i
-        float left
     form
       padding 10px
       h4

@@ -4,6 +4,7 @@ import App from './App'
 import router from './router'
 import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
+import $alert from 'common/js/alert'
 
 // import store from './store'
 
@@ -13,7 +14,7 @@ import 'common/stylus/index.styl'
 // import vConsole from 'vconsole'
 
 fastclick.attach(document.body)
-
+Vue.use($alert)
 Vue.use(VueLazyload, {
   loading: require('common/image/default.png')
 })

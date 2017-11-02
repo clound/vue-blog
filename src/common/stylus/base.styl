@@ -27,3 +27,56 @@ input[type="text"],input[type="password"],select,textarea
     &:focus
       border-color #20a0ff;
 
+@media (-webkit-min-device-pixel-ratio: 1.5),(min-device-aspect-ratio: 1.5)
+ .border-1px
+  &::after
+    -webkit-transform : scaleY(0.7)
+    transform : scaleY(0.7)
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-aspect-ratio: 2)
+ .border-1px
+  &::after
+    -webkit-transform : scaleY(0.5)
+    transform : scaleY(0.5)
+
+/* 表单验证报错信息提示 */
+.error-alert
+  position: fixed
+  top: 50%
+  left: 50%
+  min-width: 90px
+  transform: translate(-50%,-50%)
+  z-index: 2999
+  padding: 15px 20px
+  text-align: center
+  background: rgba(0, 0, 0, .7)
+  border-radius: 10px
+  font-size: 0
+  color: #fff
+  &.alert-show {
+    animation: show 2.5s;
+  }
+  .errorAlertIcon
+    display: block
+    font-size: 34px
+    margin-bottom: 12px
+  .errorAlertCon
+    font-size: 14px
+  @keyframes show {
+    0% {
+      opacity: 0
+    }
+    15% {
+      opacity: 1
+    }
+    70% {
+      opacity: 1
+    }
+    88% {
+      display: none
+    }
+    100% {
+      opacity: 0
+      display: none
+    }
+  }

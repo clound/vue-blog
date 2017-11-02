@@ -1,3 +1,17 @@
+
+/* 追加元素 */
+export function html (element, str) {
+  element.insertAdjacentHTML('beforeend', str)
+}
+
+/* 删除元素 */
+export function remove (element) {
+  var _parentElement = element.parentNode
+  if (_parentElement) {
+    _parentElement.removeChild(element)
+  }
+}
+
 export function hasClass(el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)

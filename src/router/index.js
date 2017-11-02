@@ -8,8 +8,8 @@ const Articles = (resolve) => {
     resolve(module)
   })
 }
-const Listitem = (resolve) => {
-  import('components/listitem/listitem').then((module) => {
+const ArticleDetail = (resolve) => {
+  import('components/article-detail/article-detail').then((module) => {
     resolve(module)
   })
 }
@@ -28,12 +28,14 @@ export default new Router({
     },
     {
       path: '/articles',
-      component: Articles
-    },
-    {
-      path: '/articles/listitem/:id',
-      name: 'articleitem',
-      component: Listitem
+      component: Articles,
+      children: [
+        {
+          path: ':id',
+          name: 'article-detail',
+          component: ArticleDetail
+        }
+      ]
     },
     {
       path: '/posts',

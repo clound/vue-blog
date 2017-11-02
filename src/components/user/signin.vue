@@ -1,34 +1,32 @@
 <template>
-  <!-- <transition name="slide"> -->
-    <div>
-      <div class="login" v-if="!isLogin">
-        <topHeader :title="title" @back="back"></topHeader>
-        <form action="" method="post" ref="signform">
-          <h4>用户名 <i class="red">*</i></h4>
-          <input type="text" class="title" name="name" v-model="form.name">
-          <h4>密码 <i class="red">*</i></h4>
-          <input type="text" class="title" name="password" v-model="form.password">
-          <input type="submit" class="btn" value="登录" @click="_signin($event)">
-        </form>
-        <div class="toRegister">
-          <router-link to="/signup">
-            <span class="toRegisterLink">未有账号，立即注册>></span>
-          </router-link>
-        </div>
+  <div>
+    <div class="login" v-if="!isLogin">
+      <topHeader :title="title"></topHeader>
+      <form action="" method="post" ref="signform">
+        <h4>用户名 <i class="red">*</i></h4>
+        <input type="text" class="title" name="name" v-model="form.name">
+        <h4>密码 <i class="red">*</i></h4>
+        <input type="text" class="title" name="password" v-model="form.password">
+        <input type="submit" class="btn" value="登录" @click="_signin($event)">
+      </form>
+      <div class="toRegister">
+        <router-link to="/signup">
+          <span class="toRegisterLink">未有账号，立即注册>></span>
+        </router-link>
       </div>
-      <div class="haslogin" v-else>
-        <topHeader :title="title" @back="back"></topHeader>
-        <ul class="userinfo">
-          <li><img :src="/img/+userInfo.avatar"></li>
-          <li>名字:{{userInfo.name}}</li>
-          <li>性别:{{userInfo.gender=='m'?'男':'女'}}</li>
-          <li>个性说明:{{userInfo.bio}}</li>
-        </ul>  
-        <a @click="_logout($event)" class="logout">退出登录</a>
-      </div>
-      <Confirm :text="text" ref="confirm"></Confirm>
     </div>
-  <!-- </transition> -->
+    <div class="haslogin" v-else>
+      <topHeader :title="title"></topHeader>
+      <ul class="userinfo">
+        <li><img :src="/img/+userInfo.avatar"></li>
+        <li>名字:{{userInfo.name}}</li>
+        <li>性别:{{userInfo.gender=='m'?'男':'女'}}</li>
+        <li>个性说明:{{userInfo.bio}}</li>
+      </ul>  
+      <a @click="_logout($event)" class="logout">退出登录</a>
+    </div>
+    <Confirm :text="text" ref="confirm"></Confirm>
+  </div>
 </template>
  <script type="text/ecmascript-6">
   import topHeader from 'base/top-header/top-header'
@@ -53,11 +51,7 @@
     },
     created () {
       this._config()
-    },
-    computed: {
-      isLogin () {
-        return this.login
-      }
+      this.isLogin = this.login
     },
     methods: {
       _config () {
@@ -74,21 +68,17 @@
             this.$router.push('/')
           } else {
             this.text = res.info
-            this.$refs.confirm.show()
+            this.$alert(res.info)
           }
         })
       },
       _logout (event) {
         event.preventDefault()
-        console.log(11212)
         signOut('/signout/').then((res) => {
           if (res.code === ERR_OK) {
             this.$router.push('/')
           }
         })
-      },
-      back () {
-        this.$router.back()
       }
     },
     components: {

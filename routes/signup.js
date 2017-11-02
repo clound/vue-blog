@@ -17,7 +17,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
   var name = req.fields.name;
   var gender = req.fields.gender;
   var bio = req.fields.bio;
-  var avatar = req.files.avatar.path.split(path.sep).pop();
+  var avatar = req.files.avatar?req.files.avatar.path.split(path.sep).pop():'';
   var password = req.fields.password;
   var repassword = req.fields.repassword;
   // 校验参数
@@ -42,10 +42,10 @@ router.post('/', checkNotLogin, function(req, res, next) {
     }
   } catch (e) {
     // 注册失败，异步删除上传的头像
-    fs.unlink(req.files.avatar.path);
+    req.files.avatar?fs.unlink(req.files.avatar.path):'';
     return res.json({
       code: 1,
-      info: '注册失败'
+      info: e.message
     });
   }
 

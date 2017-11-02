@@ -2,7 +2,7 @@
   <div class="m-header">
     <h1 class="text">技艺杂谈</h1>
     <router-link tag="div" class="mine" to="/signin">
-      <i class="icon-mine"></i>
+      <i class="iconfont icon-ren-xuanzhong"></i>
     </router-link>
   </div>
 </template>
@@ -23,6 +23,7 @@
     font-size: 0
     padding: 3px 18px 
     box-shadow(0 2px 4px rgba(0,0,0,.1)) 
+    // z-index 100
     .text
       display: inline-block
       vertical-align: top
@@ -32,7 +33,7 @@
       position: absolute
       top: 0
       right: 0
-      .icon-mine
+      >i
         display: block
         padding: 12px
         font-size: 20px
