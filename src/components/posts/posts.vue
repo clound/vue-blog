@@ -30,7 +30,7 @@ export default {
         if (res.code === ERR_OK) {
           this.$router.push('/')
         } else {
-          alert(res.info)
+          this.$alert(res.info)
         }
       })
     }

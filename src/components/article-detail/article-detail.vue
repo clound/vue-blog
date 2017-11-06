@@ -8,6 +8,7 @@
         <div>
           <div v-if="Object.keys(articles).length" class="itemContent">         
             <div class="text">
+              <span class="edit" @click="deleteArticle" v-show="isLogin"><i class="iconfont icon-suggest"></i>&nbsp;删除</span>
               <h3>{{articles.title}}</h3>
               <div class="time">
                   发布时间：{{articles.created_at}}
@@ -17,15 +18,14 @@
                 <div class="viewmsg">
                   <span>浏览（{{articles.pv}}）</span>
                   <span>留言（{{articles.commentsCount}}）</span>
+                 
                 </div>
               </div>
             </div> 
           </div>
           <h3 class="leavemsg">留言：</h3>
-          <div class="reviewer-wrapper">
-            
+          <div class="reviewer-wrapper">            
               <div>
-                <list-item :articles="comments"></list-item>
                 <list-item :articles="comments"></list-item>
                 <form v-show="isLogin" class="form" method="post" :action='"/posts/"+articles._id+"/comment"'>
                   <div class="field">
@@ -34,7 +34,6 @@
                   <input type="submit" class="btn" value="留言" @click="_comment($event)" />
                 </form>
               </div>
-            
           </div>   
         </div>
       </scroll>     
@@ -43,7 +42,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getEachArticle, postComment} from 'api/articles'
+import {getEachArticle, postComment, removeArticle} from 'api/articles'
 import {ERR_OK} from 'api/config'
 import {getCookie} from 'common/js/util'
 import ListItem from 'base/listitem/listitem'
@@ -73,6 +72,11 @@ export default {
     }
   },
   methods: {
+    deleteArticle() {
+      removeArticle(this.$route.params.id).then((res) => {
+        console.log(res)
+      })
+    },
     _getEachArticle (id) {
       getEachArticle(id).then((res) => {
         if (res.code === ERR_OK) {
@@ -89,7 +93,7 @@ export default {
         if (res.code === ERR_OK) {
           this._getEachArticle(this.$route.params.id)
         } else {
-          alert(res.info)
+          this.$alert(res.info)
         }
       })
     }
@@ -124,6 +128,10 @@ export default {
     .itemContent
       position relative
       padding 10px
+      .edit
+        float right 
+        font-size $f12
+        color #f2a133
       h3
         text-align center
         color: $color-theme

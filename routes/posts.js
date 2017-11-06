@@ -3,7 +3,7 @@ var router = express.Router();
 
 var PostModel = require('../models/posts');
 var CommentModel = require('../models/comments');
-// var checkLogin = require('../middlewares/check').checkLogin;
+var checkLogin = require('../middlewares/check').checkLogin;
 
 
 // GET /posts 所有用户或者特定用户的文章页
@@ -27,7 +27,7 @@ router.get('/create', function(req, res, next) {
 });
 
 // POST /posts 发表一篇文章
-router.post('/postArticles', function(req, res, next) {
+router.post('/postArticles', checkLogin, function(req, res, next) {
 
   var author = req.session.user._id;
   var title = req.fields.title;
@@ -136,15 +136,16 @@ router.post('/:postId/edit', function(req, res, next) {
 });
 
 // GET /posts/:postId/remove 删除一篇文章
-router.get('/:postId/remove', function(req, res, next) {
+router.post('/:postId/remove', function(req, res, next) {
   var postId = req.params.postId;
   var author = req.session.user._id;
-
+  console.log(postId)
   PostModel.delPostById(postId, author)
     .then(function () {
-      req.flash('success', '删除文章成功');
-      // 删除成功后跳转到主页
-      res.redirect('/posts');
+      res.json({
+        code: 0,
+        info: '删除文章成功'
+      })
     })
     .catch(next);
 });
@@ -166,9 +167,6 @@ router.post('/:postId/comment', function(req, res, next) {
         code: 0,
         info: '留言成功'
       })
-      // req.flash('success', '留言成功');
-      // 留言成功后跳转到上一页
-      // res.redirect('back');
     })
     .catch(next);
 });
@@ -179,10 +177,9 @@ router.get('/:postId/comment/:commentId/remove', function(req, res, next) {
   var author = req.session.user._id;
 
   CommentModel.delCommentById(commentId, author)
-    .then(function () {
-      req.flash('success', '删除留言成功');
-      // 删除成功后跳转到上一页
-      res.redirect('back');
+    res.json({
+      code: 0,
+      info: '删除留言成功'
     })
     .catch(next);
 });

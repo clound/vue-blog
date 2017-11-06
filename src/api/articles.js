@@ -27,3 +27,11 @@ export function postComment (params) {
     return Promise.resolve(res.data)
   })
 }
+
+export function removeArticle (params) {
+  console.log(params)
+  const url = '/posts/' + params + '/remove'
+  return axios.post(url, params).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
