@@ -37,7 +37,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
       delete user.password;
       req.session.user = user;
       // 跳转到主页
-      res.cookie('blogtoken', 'yes', { expires: new Date(Date.now() + 900000) });
+      res.cookie('blogtoken', encodeURIComponent(req.session.user._id), { expires: new Date(Date.now() + 900000) });
       res.json({
         code: 0,
         info: '登录成功'

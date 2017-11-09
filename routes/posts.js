@@ -139,7 +139,6 @@ router.post('/:postId/edit', function(req, res, next) {
 router.post('/:postId/remove', function(req, res, next) {
   var postId = req.params.postId;
   var author = req.session.user._id;
-  console.log(postId)
   PostModel.delPostById(postId, author)
     .then(function () {
       res.json({
@@ -172,14 +171,15 @@ router.post('/:postId/comment', function(req, res, next) {
 });
 
 // GET /posts/:postId/comment/:commentId/remove 删除一条留言
-router.get('/:postId/comment/:commentId/remove', function(req, res, next) {
+router.post('/:postId/comment/:commentId/remove', function(req, res, next) {
   var commentId = req.params.commentId;
   var author = req.session.user._id;
-
   CommentModel.delCommentById(commentId, author)
-    res.json({
-      code: 0,
-      info: '删除留言成功'
+    .then(function(){
+        res.json({
+         code: 0,
+         info: '删除留言成功'
+      })
     })
     .catch(next);
 });

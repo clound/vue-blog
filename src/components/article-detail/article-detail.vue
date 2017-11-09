@@ -1,14 +1,14 @@
 <template>
   <transition name="slide">
     <div class="allitem" ref="articles">
-      <topHeader :title="title"></topHeader>
+      <topHeader :title="title" @back="backfun"></topHeader>
       <scroll :data="comments" 
         class="list"
         ref="list">
         <div>
           <div v-if="Object.keys(articles).length" class="itemContent">         
             <div class="text">
-              <span class="edit" @click="deleteArticle" v-show="isLogin"><i class="iconfont icon-suggest"></i>&nbsp;删除</span>
+              <span class="edit" @click="deleteArticle" v-show="isLogin && articles.author._id===isLogin"><i class="iconfont icon-suggest"></i>&nbsp;删除</span>
               <h3>{{articles.title}}</h3>
               <div class="time">
                   发布时间：{{articles.created_at}}
@@ -17,8 +17,7 @@
               <div class="btm">
                 <div class="viewmsg">
                   <span>浏览（{{articles.pv}}）</span>
-                  <span>留言（{{articles.commentsCount}}）</span>
-                 
+                  <span>留言（{{articles.commentsCount}}）</span>  
                 </div>
               </div>
             </div> 
@@ -26,7 +25,10 @@
           <h3 class="leavemsg">留言：</h3>
           <div class="reviewer-wrapper">            
               <div>
-                <list-item :articles="comments"></list-item>
+                <list-item :articles="comments" 
+                          :isLogin="login"
+                          :isLink="false"
+                          @delleaveMsg="delleaveMsg"></list-item>
                 <form v-show="isLogin" class="form" method="post" :action='"/posts/"+articles._id+"/comment"'>
                   <div class="field">
                     <textarea name="content" v-model="form.content"></textarea>
@@ -42,7 +44,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {getEachArticle, postComment, removeArticle} from 'api/articles'
+import {getEachArticle, postComment, removeArticle, removeLeaveMsg} from 'api/articles'
 import {ERR_OK} from 'api/config'
 import {getCookie} from 'common/js/util'
 import ListItem from 'base/listitem/listitem'
@@ -72,9 +74,23 @@ export default {
     }
   },
   methods: {
+    backfun() {
+      this.$emit('reloadData')
+    },
     deleteArticle() {
       removeArticle(this.$route.params.id).then((res) => {
-        console.log(res)
+        if (res.code === ERR_OK) {
+          this.$emit('reloadData')
+          this.$router.back()
+        }
+      })
+    },
+    delleaveMsg(itemId, index) {
+      let params = Object.assign({}, {'commentId': itemId}, {'postId': this.$route.params.id})
+      removeLeaveMsg(params).then((res) => {
+        if (res.code === ERR_OK) {
+          this.comments.splice(index, 1)
+        }
       })
     },
     _getEachArticle (id) {

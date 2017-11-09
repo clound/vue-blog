@@ -12,7 +12,7 @@ module.exports = {
 
   checkNotLogin: function checkNotLogin(req, res, next) {
     if (req.session.user) {
-      res.cookie('blogtoken', 'yes', { expires: new Date(Date.now() + 900000) });
+      res.cookie('blogtoken', encodeURIComponent(req.session.user._id) , { expires: new Date(Date.now() + 900000) });
       return res.json({
         code: 0,
         data:req.session.user,

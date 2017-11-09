@@ -1,8 +1,9 @@
 <template>
   <div class="listitems">
     <ul>
-      <li v-for="item in articles" class="item border-1px"> 
-        <router-link :to="{name: 'article-detail', params: {id: item._id}}">
+      <li v-for="(item, index) in articles" class="item border-1px"> 
+        <router-link v-if="isLink" class="linkItem" 
+                :to="{name: 'article-detail', params: {id: item._id}}">
             <div class="img">
               <img :src="/img/+item.author.avatar" alt="">  
             </div>
@@ -12,6 +13,7 @@
                   发布时间：{{item.created_at}}
               </div>
               <p v-html="item.content"></p>
+              <span class="edit" @click="delleaveMsg(item._id, index)" v-show="item.author._id === isLogin"><i class="iconfont icon-suggest"></i>&nbsp;删除</span>
               <div class="btm">
                 <div class="viewmsg">
                   <span v-show="item.pv">浏览（{{item.pv}}）</span>
@@ -20,6 +22,25 @@
               </div>
             </div>
         </router-link>
+        <div v-else class="linkItem">
+           <div class="img">
+              <img :src="/img/+item.author.avatar" alt="">  
+            </div>
+            <div class="text">
+              <h3>{{item.title}}</h3>
+              <div class="time">
+                  发布时间：{{item.created_at}}
+              </div>
+              <p v-html="item.content"></p>
+              <span class="edit" @click="delleaveMsg(item._id, index)" v-show="item.author._id === isLogin"><i class="iconfont icon-suggest"></i>&nbsp;删除</span>
+              <div class="btm">
+                <div class="viewmsg">
+                  <span v-show="item.pv">浏览（{{item.pv}}）</span>
+                  <span v-show="item.commentsCount">留言（{{item.commentsCount}}）</span>
+                </div>
+              </div>
+            </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -27,10 +48,20 @@
 <script type="text/ecmascript-6">
   export default {
     props: {
-      articles: Array
+      isLink: {
+        type: Boolean,
+        default: true
+      },
+      articles: Array,
+      isLogin: {
+        type: String,
+        default: ''
+      }
     },
-    created() {
-      console.log(this.articles)
+    methods: {
+      delleaveMsg(id, index) {
+        this.$emit('delleaveMsg', id, index)
+      }
     }
   }
 </script>
@@ -43,7 +74,7 @@
     .item
       padding 10px
       border-1px(rgba(1, 17, 27, 0.1))
-      a
+      .linkItem
         display: flex
         box-sizing: border-box
         align-items flex-start
@@ -74,6 +105,12 @@
               font-size $f12
               margin-top 5px
               line-height 15px
+            .edit
+              position absolute;
+              right 10px
+              top 10px
+              font-size $f12
+              color #f2a133
             .btm
               display flex
               align-self flex-end

@@ -9,7 +9,7 @@
       <list-item :articles="articles"></list-item>
     </div>
   </scroll>
-  <router-view></router-view>
+  <router-view @reloadData="reloadDataFun"></router-view>
 </div>
 </template>
 
@@ -29,6 +29,9 @@ export default {
     this.listenScroll = true
   },
   methods: {
+    reloadDataFun () {
+      this._getArticles()
+    },
     _getArticles () {
       getArticles().then((data) => {
         this.articles = data
