@@ -48,16 +48,10 @@ export default new Router({
     {
       path: '/signup',
       component: resolve => require(['components/user/signup.vue'], resolve)
+    },
+    {
+      path: '/my',
+      component: resolve => require(['components/user/userinfo.vue'], resolve)
     }
-    // {
-    //   path: '/singer',
-    //   component: Singer,
-    //   children: [
-    //     {
-    //       path: ':id',
-    //       component: SingerDetail
-    //     }
-    //   ]
-    // },
   ]
 })

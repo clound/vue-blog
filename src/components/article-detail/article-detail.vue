@@ -187,7 +187,8 @@ export default {
     .btn
       display: inline-block;
       text-align: center;
-      padding: 10px 15px;
+      width 90%
+      padding: 10px 0;
       font-size: 14px;
       border-radius: 4px;
       color: #fff;

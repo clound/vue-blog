@@ -13,9 +13,9 @@
       <span class="tab-link">评论
       </span>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/search">
-      <i class="iconfont icon-search"></i>
-      <span class="tab-link">搜索</span>
+    <router-link tag="div" class="tab-item" to="/my">
+      <i class="iconfont icon-ren-xuanzhong"></i>
+      <span class="tab-link">我的</span>
     </router-link>
   </div>
 </template>

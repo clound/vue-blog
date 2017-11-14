@@ -8,6 +8,12 @@ border-1px($color)
     border-top 1px solid $color
     width: 100%
     content: ''
+    @media (-webkit-min-device-pixel-ratio: 1.5),(min-device-aspect-ratio: 1.5)
+      -webkit-transform : scaleY(0.7)
+      transform : scaleY(0.7)
+    @media (-webkit-min-device-pixel-ratio: 2),(min-device-aspect-ratio: 2)
+        -webkit-transform : scaleY(0.5)
+        transform : scaleY(0.5)
 
 border-none()
   &:after
