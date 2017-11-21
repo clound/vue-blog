@@ -22,8 +22,8 @@
               </div>
             </div> 
           </div>
-          <h3 class="leavemsg">留言：</h3>
-          <div class="reviewer-wrapper">            
+          <h3 class="leavemsg" >留言：</h3>
+          <div class="reviewer-wrapper" v-if="comments.length">            
               <div>
                 <list-item :articles="comments" 
                           :isLogin="login"
@@ -37,6 +37,9 @@
                 </form>
               </div>
           </div>   
+          <div class="wrapper-kong" v-else>
+            <kong :title="`暂无留言`"></kong>
+          </div>
         </div>
       </scroll>     
     </div>
@@ -50,6 +53,7 @@ import {getCookie} from 'common/js/util'
 import ListItem from 'base/listitem/listitem'
 import topHeader from 'base/top-header/top-header'
 import Scroll from 'base/scroll/scroll'
+import Kong from 'base/kong/kong'
 export default {
   data () {
     return {
@@ -117,7 +121,8 @@ export default {
   components: {
     ListItem,
     topHeader,
-    Scroll
+    Scroll,
+    Kong
   }
 }
 </script>
@@ -176,7 +181,8 @@ export default {
       background #eee
     .reviewer-wrapper
       position relative
-      
+    .wrapper-kong  
+      padding 15px 0
     .field
       display flex
       justify-content center

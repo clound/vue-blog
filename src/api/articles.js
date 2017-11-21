@@ -1,7 +1,10 @@
 import axios from 'axios'
 
-export function getArticles() {
-  const url = '/posts/getArticles'
+export function getArticles(params) {
+  let url = '/posts/getArticles'
+  if (params) {
+    url += `?author=${params}`
+  }
   return axios.get(url).then((res) => {
     return Promise.resolve(res.data)
   })

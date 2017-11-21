@@ -12,7 +12,6 @@ router.get('/getArticles', function(req, res, next) {
   var author = req.query.author;
   PostModel.getPosts(author)
     .then(function (posts) {
-      // console.log(posts);
       res.json(posts);
       // res.render('posts', {
       //   posts: posts

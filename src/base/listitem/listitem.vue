@@ -4,7 +4,7 @@
       <li v-for="(item, index) in articles" class="item border-1px"> 
         <router-link v-if="isLink" class="linkItem" 
                 :to="{name: 'article-detail', params: {id: item._id}}">
-            <div class="img">
+            <div class="img" v-if="showAvatar">
               <img :src="/img/+item.author.avatar" alt="">  
             </div>
             <div class="text">
@@ -23,7 +23,7 @@
             </div>
         </router-link>
         <div v-else class="linkItem">
-           <div class="img">
+           <div class="img" v-if="showAvatar">
               <img :src="/img/+item.author.avatar" alt="">  
             </div>
             <div class="text">
@@ -48,6 +48,10 @@
 <script type="text/ecmascript-6">
   export default {
     props: {
+      showAvatar: {
+        type: Boolean,
+        default: true
+      },
       isLink: {
         type: Boolean,
         default: true

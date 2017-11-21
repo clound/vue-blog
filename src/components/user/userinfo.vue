@@ -1,45 +1,48 @@
 <template>
   <div class="userInfo">
     <div class="useravtar">
-      <img :src="/img/+userInfo.avatar">
+      <img :src="/img/+author.avatar">
     </div>
     <ul class="userinfo">
-      <li><span>名字:</span><span>{{userInfo.name}}</span></li>
-      <li><span>性别:</span><span>{{userInfo.gender=='m'?'男':'女'}}</span></li>
-      <li><span>个性说明:</span><span>{{userInfo.bio}}</span></li>
+      <li><span>名字:</span><span>{{author.name}}</span></li>
+      <li><span>性别:</span><span>{{author.gender=='m'?'男':'女'}}</span></li>
+      <li><span>个性说明:</span><span>{{author.bio}}</span></li>
     </ul>
+    <router-link to="/my/selfarticles">
+      <li>
+        <div>发表过的：<i class="iconfont icon-right"></i></div>
+      </li>
+    </router-link>
+    <!-- <router-link to="/my/selfcomments">
+      <li>
+        <div>我的留言：<i class="iconfont icon-right"></i></div>
+      </li>
+    </router-link> -->
+    <router-view></router-view>
   </div>
 </template>
  <script type="text/ecmascript-6">
-  import {getLoginInfo} from 'api/signin'
-  import {ERR_OK} from 'api/config'
-  import {getCookie} from 'common/js/util'
+  import {mapGetters} from 'vuex'
   export default {
     data () {
       return {
-        text: '',
-        title: '登录',
-        login: (() => {
-          return getCookie('blogtoken')
-        })(),
-        form: {
-          name: '',
-          password: ''
-        },
-        userInfo: {}
       }
     },
-    created () {
-      this._config()
-      this.isLogin = this.login
+    mounted () {
+      setTimeout(() => {
+        this._config()
+      }, 20)
+    },
+    computed: {
+      ...mapGetters([
+        'author'
+      ])
     },
     methods: {
       _config () {
-        getLoginInfo('signin').then((res) => {
-          if (res.code === ERR_OK) {
-            this.userInfo = res.data
-          }
-        })
+        if (!Object.keys(this.author).length) {
+          this.$router.push('signin')
+        }
       }
     },
     components: {
@@ -71,5 +74,11 @@
         width 80px
         height 80px
         border-radius 50%    
+      >div
+        width 100%
+        display flex
+        i 
+          flex 1
+          text-align right
 </style>
 

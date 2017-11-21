@@ -40,6 +40,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
       res.cookie('blogtoken', encodeURIComponent(req.session.user._id), { expires: new Date(Date.now() + 900000) });
       res.json({
         code: 0,
+        data:req.session.user,
         info: '登录成功'
       });
     })

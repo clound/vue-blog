@@ -18,10 +18,10 @@
     <div class="haslogin" v-else>
       <topHeader :title="title"></topHeader>
       <ul class="userinfo">
-        <li><img :src="/img/+userInfo.avatar"></li>
-        <li>名字:{{userInfo.name}}</li>
-        <li>性别:{{userInfo.gender=='m'?'男':'女'}}</li>
-        <li>个性说明:{{userInfo.bio}}</li>
+        <li><img :src="/img/+author.avatar"></li>
+        <li>名字:{{author.name}}</li>
+        <li>性别:{{author.gender=='m'?'男':'女'}}</li>
+        <li>个性说明:{{author.bio}}</li>
       </ul>  
       <a @click="_logout($event)" class="logout">退出登录</a>
     </div>
@@ -29,9 +29,10 @@
   </div>
 </template>
  <script type="text/ecmascript-6">
+  import {mapGetters, mapMutations} from 'vuex'
   import topHeader from 'base/top-header/top-header'
   import Confirm from 'base/confirm/confirm'
-  import {getLoginInfo, signInUp, signOut} from 'api/signin'
+  import {signInUp, signOut} from 'api/signin'
   import {ERR_OK} from 'api/config'
   import {getCookie} from 'common/js/util'
   export default {
@@ -45,26 +46,23 @@
         form: {
           name: '',
           password: ''
-        },
-        userInfo: {}
+        }
       }
     },
     created () {
-      this._config()
       this.isLogin = this.login
     },
+    computed: {
+      ...mapGetters([
+        'author'
+      ])
+    },
     methods: {
-      _config () {
-        getLoginInfo('signin').then((res) => {
-          if (res.code === ERR_OK) {
-            this.userInfo = res.data
-          }
-        })
-      },
       _signin (event) {
         event.preventDefault()
         signInUp('/signin/', this.form).then((res) => {
           if (res.code === ERR_OK) {
+            this.setAuthor(res.data)
             this.$router.push('/')
           } else {
             this.text = res.info
@@ -76,10 +74,14 @@
         event.preventDefault()
         signOut('/signout/').then((res) => {
           if (res.code === ERR_OK) {
+            this.setAuthor({})
             this.$router.push('/')
           }
         })
-      }
+      },
+      ...mapMutations({
+        setAuthor: 'SET_AUTHOR'
+      })
     },
     components: {
       topHeader,

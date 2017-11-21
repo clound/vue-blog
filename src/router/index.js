@@ -14,6 +14,17 @@ const ArticleDetail = (resolve) => {
   })
 }
 
+const selfArticles = (resolve) => {
+  import('components/selfArticles/selfArticles').then((module) => {
+    resolve(module)
+  })
+}
+const selfcomments = (resolve) => {
+  import('components/selfcomments/selfcomments').then((module) => {
+    resolve(module)
+  })
+}
+
 const Posts = (resolve) => {
   import('components/posts/posts').then((module) => {
     resolve(module)
@@ -51,7 +62,18 @@ export default new Router({
     },
     {
       path: '/my',
-      component: resolve => require(['components/user/userinfo.vue'], resolve)
+      component: resolve => require(['components/user/userinfo.vue'], resolve),
+      children: [
+        {
+          path: 'selfarticles',
+          name: 'selfarticles',
+          component: selfArticles
+        }, {
+          path: 'selfcomments',
+          name: 'selfcomments',
+          component: selfcomments
+        }
+      ]
     }
   ]
 })
