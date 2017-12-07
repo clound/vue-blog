@@ -3,6 +3,11 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+const Welcome = (resolve) => {
+  import('components/Welcome/welcome').then((module) => {
+    resolve(module)
+  })
+}
 const Articles = (resolve) => {
   import('components/articles/articles').then((module) => {
     resolve(module)
@@ -34,7 +39,12 @@ const Posts = (resolve) => {
 export default new Router({
   routes: [
     {
+      path: '/welcome',
+      component: Welcome
+    },
+    {
       path: '/',
+      name: 'articles',
       redirect: '/articles'
     },
     {
@@ -74,6 +84,10 @@ export default new Router({
           component: selfcomments
         }
       ]
+    },
+    {
+      path: '/chatrooms',
+      component: resolve => require(['components/chatroom/chatroom.vue'], resolve)
     }
   ]
 })

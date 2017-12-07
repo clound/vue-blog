@@ -80,3 +80,53 @@ input[type="text"],input[type="password"],select,textarea
       display: none
     }
   }
+/* 弹出提示框 */
+.fadeTip
+  position: fixed
+  top: 10%
+  left: 50%
+  min-width: 80%
+  transform: translate(-50%,-50%)
+  z-index: 2999
+  padding: 10px
+  text-align: center
+  background: rgba(0, 0, 0, .7)
+  border-radius: 10px
+  font-size: 0
+  color: #fff
+  &.fadeMsg-show {
+    animation: show 2.5s;
+  }
+  .fadeMsgIcon
+    display: inline-block
+    font-size: 22px
+    vertical-align: top
+    color: $color-title
+  .fadeTipCon
+    position: relative
+    font-size: 14px
+    margin-left: 10px
+    top: 4px
+  @keyframes show {
+    0% {
+      opacity: 0
+      transform: translate(-50%,-50%)
+    }
+    15% {
+      opacity: 1
+      transform: translate(-50%,-30%)
+    }
+    70% {
+      opacity: 1
+      transform: translate(-50%,-30%)
+    }
+    88% {
+      display: none
+      transform: translate(-50%,-100%)
+    }
+    100% {
+      opacity: 0
+      display: none
+      transform: translate(-50%,-100%)
+    }
+  }

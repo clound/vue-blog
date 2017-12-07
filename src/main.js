@@ -5,6 +5,7 @@ import router from './router'
 import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
 import $alert from 'common/js/alert'
+import {loadFromlLocal} from 'common/js/store'
 
 import store from './store'
 
@@ -26,3 +27,12 @@ new Vue({
   store,
   render: h => h(App)
 })
+
+/**
+ * loadFromlLocal()是读取本地缓存数据，具体common/js/store.js 查看
+ *
+ *
+ */
+if (!loadFromlLocal('hasIn', 'welcome', false)) {
+  router.push('/welcome')
+}

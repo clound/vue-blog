@@ -1,6 +1,6 @@
   <template>
     <div class="back">
-        <i class="iconfont icon-left" @click="back()"></i>
+        <i class="iconfont icon-left" @click="back"></i>
         <span>{{title}}</span>
       </div>    
   </template>

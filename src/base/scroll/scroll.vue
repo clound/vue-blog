@@ -81,6 +81,7 @@
       },
       refresh() {
         this.scroll && this.scroll.refresh()
+        this.$emit('hasRefresh', this.scroll.maxScrollY)
       },
       scrollTo() {
         this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)

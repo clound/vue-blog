@@ -109,7 +109,10 @@ devMiddleware.waitUntilValid(() => {
 })
 
 var server = app.listen(port)
-
+/**
+ * 调用socket组件库
+ */
+var socket = require('./socket')(server);
 module.exports = {
   ready: readyPromise,
   close: () => {

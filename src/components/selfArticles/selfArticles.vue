@@ -2,7 +2,7 @@
  <transition name="slide">
     <div class="allitem" ref="articles">
       <topHeader :title="`我的文章`"></topHeader>
-      <div class="list-content">
+      <div class="list-content" v-if="articles.length">
         <scroll :data="articles" 
         :listen-scroll="listenScroll"
         :probe-type="probeType"
@@ -17,6 +17,9 @@
           </div>
         </scroll>
       </div>
+      <div class="wrapper-kong" v-else>
+          <kong :title="`暂未发表`"></kong>
+      </div>
     </div>
   </transition>
 </template>
@@ -27,6 +30,7 @@ import Scroll from 'base/scroll/scroll'
 import topHeader from 'base/top-header/top-header'
 import {getArticles} from 'api/articles'
 import ListItem from 'base/listitem/listitem'
+import Kong from 'base/kong/kong'
 export default {
   data () {
     return {
@@ -49,7 +53,6 @@ export default {
     },
     _getArticles () {
       getArticles(this.author._id).then((data) => {
-        console.log(data)
         this.articles = data
       })
     }
@@ -57,7 +60,8 @@ export default {
   components: {
     topHeader,
     Scroll,
-    ListItem
+    ListItem,
+    Kong
   }
 }
 </script>
@@ -77,16 +81,14 @@ export default {
     bottom: 0
     right: 0
     background: #fff
-    .list
-      width 100%
-      height calc(100% - 94px)
-      overflow hidden
-  .list-content
-    position: fixed
-    width: 100%
-    top: 44px
-    bottom: 0
-    .list
-      height: calc(100% - 50px)
-      overflow: hidden      
+    .list-content
+      position: fixed
+      width: 100%
+      top: 44px
+      bottom: 0
+      .list
+        height: 100%
+        overflow: hidden    
+  .wrapper-kong  
+      padding 45% 0 0
 </style>

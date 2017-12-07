@@ -10,7 +10,12 @@
     </ul>
     <router-link to="/my/selfarticles">
       <li>
-        <div>发表过的：<i class="iconfont icon-right"></i></div>
+        <div>发表文章：<i class="iconfont icon-right"></i></div>
+      </li>
+    </router-link>
+    <router-link to="/chatrooms">
+      <li>
+        <div>聊天室<i class="iconfont icon-right"></i></div>
       </li>
     </router-link>
     <!-- <router-link to="/my/selfcomments">
@@ -21,28 +26,14 @@
     <router-view></router-view>
   </div>
 </template>
+ 
  <script type="text/ecmascript-6">
-  import {mapGetters} from 'vuex'
+  import {isLogin} from 'common/js/mixin'
   export default {
+    mixins: [isLogin],
     data () {
       return {
-      }
-    },
-    mounted () {
-      setTimeout(() => {
-        this._config()
-      }, 20)
-    },
-    computed: {
-      ...mapGetters([
-        'author'
-      ])
-    },
-    methods: {
-      _config () {
-        if (!Object.keys(this.author).length) {
-          this.$router.push('signin')
-        }
+        id: ''
       }
     },
     components: {
