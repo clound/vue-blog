@@ -21,7 +21,6 @@ npm run build --report
 
 ### example Image
 
-![](https://github.com/clound/vue-blog/blob/master/src/assets/发表页.jpg)
 ![](https://github.com/clound/vue-blog/blob/master/src/assets/首页.jpg)
 ![](https://github.com/clound/vue-blog/blob/master/src/assets/发表页.jpg)
 ![](https://github.com/clound/vue-blog/blob/master/src/assets/我的.jpg)
