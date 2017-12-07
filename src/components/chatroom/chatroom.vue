@@ -17,12 +17,12 @@
             <div class="self" v-if="item.userId===userId">
               <span class="name">{{nowTime}}</span>
               <span class="name">{{item.userName}}</span>
-              <div class="chatcontent">{{item.content}}</div>
+              <div class="infowrap"><span class="chatcontent">{{item.content}}</span></div>
             </div>
             <div class="services" v-else>
               <span class="name">{{item.userName}}</span>
               <span class="name">{{nowTime}}</span>
-              <div class="chatcontent">{{item.content}}</div>
+              <div class="infowrap"><span class="chatcontent">{{item.content}}</span></div>
             </div>
           </li>
         </ul>
@@ -173,17 +173,16 @@
           vertical-align top
           font-size $f14
           color $fc99
-        .chatcontent
-          // max-width: 75%
-          // float right
-          padding 10px 0
-          font-size $f14
-          padding 4px 15px
-          // white-space: normal
-          // word-break:break-all
-          border-radius 5px
-          color #fff
-          background $color-title
+        .infowrap
+          padding 15px 0;
+          .chatcontent
+            font-size $f14
+            padding 4px 15px
+            white-space: normal
+            word-break:break-all
+            border-radius 5px
+            color #fff
+            background $color-title
         .services
           text-align left 
           .name
