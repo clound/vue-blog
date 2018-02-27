@@ -18,7 +18,16 @@ const ArticleDetail = (resolve) => {
     resolve(module)
   })
 }
-
+const Product = (resolve) => {
+  import('components/product/product').then((module) => {
+    resolve(module)
+  })
+}
+const ProductDetail = (resolve) => {
+  import('components/product-detail/product-detail').then((module) => {
+    resolve(module)
+  })
+}
 const selfArticles = (resolve) => {
   import('components/selfArticles/selfArticles').then((module) => {
     resolve(module)
@@ -37,6 +46,7 @@ const Posts = (resolve) => {
 }
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/welcome',
@@ -46,6 +56,17 @@ export default new Router({
       path: '/',
       name: 'articles',
       redirect: '/articles'
+    },
+    {
+      path: '/product',
+      component: Product,
+      children: [
+        {
+          path: ':id',
+          name: 'product-detail',
+          component: ProductDetail
+        }
+      ]
     },
     {
       path: '/articles',

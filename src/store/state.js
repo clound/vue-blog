@@ -1,5 +1,7 @@
 const state = {
-  author: {}
+  author: {},
+  products: [],
+  carts: []
 }
 
 export default state

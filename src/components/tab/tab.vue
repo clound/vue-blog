@@ -8,14 +8,14 @@
       <i class="iconfont icon-querenfangan"></i>
       <span class="tab-link">my文章</span>
     </router-link> -->
+    <router-link tag="div" class="tab-item" to="/product">
+      <i class="iconfont icon-shoucang"></i>
+      <span class="tab-link">产品</span>
+    </router-link>
     <router-link tag="div" class="tab-item" to="/posts">
       <i class="iconfont icon-plus tab_edit"></i>
       <span class="tab-link">发表</span>
     </router-link>
-    <!-- <router-link tag="div" class="tab-item" to="/collect">
-      <i class="iconfont icon-shoucang"></i>
-      <span class="tab-link">收藏</span>
-    </router-link> -->
     <router-link tag="div" class="tab-item" to="/my">
       <i class="iconfont icon-ren-xuanzhong"></i>
       <span class="tab-link">我的</span>
@@ -46,18 +46,18 @@
       >i 
         display block
         margin-top 10px
-        &.tab_edit
-          position absolute;
-          border-radius 50%
-          left 50%
-          top -30px;
-          padding 10px;
-          color #fff
-          font-size $f18
-          background #f2a133
-          transform translateX(-50%)
-          +span 
-            margin-top 30px
+        // &.tab_edit
+        //   position absolute;
+        //   border-radius 50%
+        //   left 50%
+        //   top -30px;
+        //   padding 10px;
+        //   color #fff
+        //   font-size $f18
+        //   background #f2a133
+        //   transform translateX(-50%)
+        //   +span 
+        //     margin-top 30px
       .tab-link
         display block
         margin-top 5px
@@ -66,7 +66,7 @@
       &.router-link-active
         >i,.tab-link
           color: $color-theme
-        .tab_edit
-          color #fff
-          box-shadow 0 0 22px #666;
+        // .tab_edit
+        //   color #fff
+        //   box-shadow 0 0 22px #666;
 </style>

@@ -16,6 +16,7 @@
               <span class="edit" @click="delleaveMsg(item._id, index)" v-show="item.author._id === isLogin"><i class="iconfont icon-suggest"></i>&nbsp;删除</span>
               <div class="btm">
                 <div class="viewmsg">
+                  
                   <span v-show="item.pv">浏览（{{item.pv}}）</span>
                   <span v-show="item.commentsCount">留言（{{item.commentsCount}}）</span>
                 </div>
@@ -35,6 +36,7 @@
               <span class="edit" @click="delleaveMsg(item._id, index)" v-show="item.author._id === isLogin"><i class="iconfont icon-suggest"></i>&nbsp;删除</span>
               <div class="btm">
                 <div class="viewmsg">
+                  
                   <span v-show="item.pv">浏览（{{item.pv}}）</span>
                   <span v-show="item.commentsCount">留言（{{item.commentsCount}}）</span>
                 </div>
