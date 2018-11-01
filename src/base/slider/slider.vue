@@ -121,6 +121,7 @@
         if (this.loop) {
           pageIndex += 1
         }
+        console.log(pageIndex)
         this.timer = setTimeout(() => {
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
@@ -133,6 +134,7 @@
   @import "~common/stylus/variable"
 
   .slider
+  position relative
     min-height: 1px
     .slider-group
       position: relative

@@ -58,6 +58,11 @@ export default new Router({
       redirect: '/articles'
     },
     {
+      path: '/selfs',
+      name: 'selfs',
+      component: resolve => require(['components/selfs'], resolve)
+    },
+    {
       path: '/product',
       component: Product,
       children: [

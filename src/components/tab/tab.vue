@@ -4,10 +4,10 @@
       <i class="iconfont icon-shouye-shouye"></i>
       <span class="tab-link">首页</span>
     </router-link>
-    <!-- <router-link tag="div" class="tab-item" to="/selfarticles">
+    <router-link tag="div" class="tab-item" to="/selfs">
       <i class="iconfont icon-querenfangan"></i>
-      <span class="tab-link">my文章</span>
-    </router-link> -->
+      <span class="tab-link">列表</span>
+    </router-link>
     <router-link tag="div" class="tab-item" to="/product">
       <i class="iconfont icon-shoucang"></i>
       <span class="tab-link">产品</span>
